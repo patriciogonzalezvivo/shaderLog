@@ -1,0 +1,26 @@
+{
+  "name": "shaderLog",
+  "version": "1.0.0",
+  "description": "Shaders Printer server",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "www.github.com/patriciogonzalezvivo/shaderLog"
+  },
+  "keywords": [
+    "GLSL",
+    "shaders",
+    "thermo",
+    "printer"
+  ],
+  "private": true,
+  "author": "Patricio Gonzalez Vivo",
+  "license": "MIT",
+  "dependencies": {
+    "formidable": "^1.0.17"
+  }
+}
