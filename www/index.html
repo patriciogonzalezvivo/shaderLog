@@ -59,9 +59,17 @@
     			height: 100%;
 			}
 
-  		.CodeMirror-linenumbers { 
-  			padding: 0 8px; 
-  		}
+  			.CodeMirror-linenumbers { 
+  				padding: 0 8px; 
+  			}
+
+  			#editor .not-over {
+    			background-color: #f1f1f1; 
+    		}
+
+  			#editor .over {
+    			background-color: white; 
+    		}
 		</style>
 
 	</head>
@@ -70,6 +78,73 @@
 		<div id="editor"></div>
 		<canvas id="canvas" class="right" width="500" height="500" animate="true"></canvas>
 		<script type="text/javascript">
+
+		//	DRAG&DROP ZONE
+		//-----------------------------------------------------------
+		//
+		this.uploadPlace =  document.getElementById('editor');
+		
+		this.uploadPlace.addEventListener("dragover", function(event) {
+			event.stopPropagation();
+			event.preventDefault();
+			document.getElementById('editor').className="over";
+			// var ok = event.dataTransfer && event.dataTransfer.types && event.dataTransfer.types.indexOf('Files') >= 0;
+			// this.uploadPlace.className = ok ? 'over' : 'not-available';
+		},true);
+
+		this.uploadPlace.addEventListener("dragleave", function(event) {
+			event.stopPropagation();
+			event.preventDefault();
+			document.getElementById('editor').className="not-over";
+		},true);
+
+		//	On File Drop
+		this.uploadPlace.addEventListener("drop", function(event) {
+			event.preventDefault();
+			var dt = event.dataTransfer;
+			var file = dt.files[0];
+			
+			addFileToQueue(file);
+		},false);
+
+		function addFileToQueue(_file ) {
+			// Once the process of reading file
+			this.loadEnd = function() {
+				var url = '/load';
+				var data = new FormData();
+				data.append('file', _file);
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', url, true);
+				xhr.onload = function () {
+					// do something to response
+					console.log(this.responseText);
+				};
+				xhr.send(data);
+			};
+
+			// Loading errors
+			this.loadError = function(event) {
+				switch(event.target.error.code) {
+					case event.target.error.NOT_FOUND_ERR:
+						console.log('File not found!');
+					break;
+					case event.target.error.NOT_READABLE_ERR:
+						console.log('File not readable!');
+					break;
+					case event.target.error.ABORT_ERR:
+						console.log('Abort');
+					break;
+					default:
+						console.log('Unknown read error');
+				}
+			};
+
+			var reader = new FileReader();
+			reader.addEventListener('loadend', this.loadEnd, false);
+			reader.addEventListener('error', this.loadError, false);
+			reader.readAsBinaryString(_file);
+		}
+
 		window.addEventListener("hashchange", function () {
 			loadTag()
 		}, false);
@@ -94,9 +169,20 @@
 			removeElementsByClass("CodeMirror");
 
 			if( window.location.hash === "" ){
-				fragShader = "void main(){\n\
-			gl_FragColor = vec4(0.0,1.0,0.0,1.0);\n\
-		}";
+				fragShader = "#ifdef GL_ES\n\
+precision mediump float;\n\
+#endif\n\
+\n\
+uniform vec2 u_resolution;\n\
+\n\
+void main(){\n\
+	vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\
+	st.x *= u_resolution.x/u_resolution.y;\n\
+	\n\
+	vec3 color = vec3(0.0,1.0,0.0);\n\
+	\n\
+	gl_FragColor = vec4(color,1.0);\n\
+}";
 			} else {
 				var hashes = location.hash.split('&');
 
@@ -152,6 +238,7 @@
 					extraKeys: {"Ctrl-Space": "autocomplete"},
 					showCursorWhenSelecting: true,
 					theme: "monokai",
+					dragDrop: false,
 					indentUnit: 4
 				});
 
