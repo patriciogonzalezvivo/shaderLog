@@ -16,19 +16,9 @@ var formidable = require('formidable');  // uploading files;
 var WWW_ROOT = "./www/";
 var HTTP_PORT = 8080;
 
-var vPlotterPIPE;
+var PIPE;
 var status = {'printing' : false,
               'queue': [],
-              'options' : {'motorsDistance' : 1384,
-                           'pulleyRadius' : 6,
-                           'stepsPerRotation' : 800,
-                           'stepDelay' : 2,
-                           'penDownAngle' : 140,
-                           'penUpAngle' : 70,
-                           'penDelay' : 200,
-                           'OSCPort' : 101010,
-                           'debugDisplay' : false
-                          }
              };
 
 //  vPlotter App
@@ -36,31 +26,14 @@ var status = {'printing' : false,
 function printFirstInLine() {
     console.log('There are ' + status.queue.length + ' objects on the queue');
     console.log('Printer is ' + status.printing);
+
     if (status.printing === false && status.queue.length > 0) {
         var actualFile = status.queue[0],
-        command = './vPlotter -d ' + status.options.motorsDistance +
-            ' -pr ' + status.options.pulleyRadius +
-            ' -spr ' + status.options.stepsPerRotation +
-            ' -sd ' + status.options.stepDelay +
-            ' -pd ' + status.options.penDownAngle +
-            ' -pu ' + status.options.penUpAngle +
-            ' -delay ' + status.options.penDelay;
-
-        if (status.options.debugDisplay) {
-            command += ' -x';
-        }
-
-        if (actualFile.file === 'OSC') {
-            command += ' -o ' + status.options.OSCPort;
-        } else {
-            command += ' -s ' + actualFile.scale +
-                 ' -r ' + actualFile.rotate +
-                 ' -i ' + actualFile.file;
-        }
+        command = 'glslViewer ' + actualFile + ' -w 384 -h 384 -s 1 -o tmp.png && tprint tmp.png'
 
     console.log(command);
     status.printing = true;
-    vPlotterPIPE = exec(command, function (error, stdout, stderr) {
+    PIPE = exec(command, function (error, stdout, stderr) {
       // console.log('stdout: '+stdout);
       // console.log('stderr: '+stderr);
       // if (error !== null) {
@@ -70,12 +43,6 @@ function printFirstInLine() {
       //  Erase the job from the queue and the file
       //
       status.printing = false;
-      if (actualFile.file !== 'OSC') {
-        fs.unlink('www/data/' + actualFile.file, function (err) {
-          if (err) { console.log(err); }
-          console.log(actualFile.file + ' successfully deleted');
-        });
-      }
       status.queue.shift();
 
       if (status.queue.length > 0) {
@@ -96,8 +63,7 @@ var server = http.createServer( function( req , res ) {
     res.writeHead(200, { 'Content-Type':'application/json'}); //, "Access-Control-Allow-Origin":"*"
     res.write(JSON.stringify(status));
     res.end();
-  }
-  else if(parsedReq.pathname === "/set") {
+  } else if(parsedReq.pathname === "/set") {
     //  SET OPTIONS
     //
     var url_parts = url.parse(req.url, true);
@@ -110,17 +76,7 @@ var server = http.createServer( function( req , res ) {
     }
     console.log("Options now are: ");
     console.log(status.options);
-  }
-  else if(parsedReq.pathname == "/addOsc" && req.method.toLowerCase() == 'post'){
-    var queue_obj = {
-      'file': 'OSC',
-      'rotate': 0,
-      'scale': 100
-    }
-    status.queue.push(queue_obj);
-    printFirstInLine();
-  }
-  else if(parsedReq.pathname == "/addFile" && req.method.toLowerCase() == 'post'){
+  } else if(parsedReq.pathname == "/load" && req.method.toLowerCase() == 'post'){
       console.log("File recived");
     //  UPLOAD FILE & ADD TO QUEUE
     //
@@ -129,7 +85,7 @@ var server = http.createServer( function( req , res ) {
     var files = [];
     var fields = [];
 
-    form.uploadDir = "www/data";
+    form.uploadDir = "www/log";
     form.keepExtensions = true;
 
     form
@@ -138,20 +94,18 @@ var server = http.createServer( function( req , res ) {
             console.log(err);
         })
         .on('field', function(field, value) {
-            // console.log(field, value);
+            console.log(field, value);
             fields.push([field, value]);
         })
         .on('fileBegin', function(name, file){
-            var filename = "img_" + Date.now()+".svg";
+            var filename = Date.now()+".frag";
             file.name = filename;
             file.path = form.uploadDir + "/" + filename;//file.name;
         })
         .on('file', function(field, file) {
           console.log([field,file]);
           var queue_obj = {
-            'file': file.name,
-            'rotate': fields[0][1],
-            'scale': fields[1][1]
+            'file': file.name
           }
           status.queue.push(queue_obj);
         })
@@ -166,8 +120,7 @@ var server = http.createServer( function( req , res ) {
         });
 
       form.parse(req);
-  }
-  else {
+  } else {
     //  REGULAR WEB SERVER
     //
     var mimeTypes = {
