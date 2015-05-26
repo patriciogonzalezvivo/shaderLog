@@ -29,7 +29,7 @@ function printFirstInLine() {
 
     if (status.printing === false && status.queue.length > 0) {
         var actualFile = status.queue[0],
-        command = 'glslViewer www/log/' + actualFile.file + ' -w 384 -h 384 -s 1 -o tmp.png && tprint tmp.png'
+        command = './print.sh www/log/' + actualFile.file ;
 
     console.log(command);
     status.printing = true;
