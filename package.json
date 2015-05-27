@@ -20,7 +20,5 @@
   "private": true,
   "author": "Patricio Gonzalez Vivo",
   "license": "MIT",
-  "dependencies": {
-    "formidable": "^1.0.17"
-  }
+  "dependencies": {}
 }
