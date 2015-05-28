@@ -4,7 +4,7 @@ var http = require("http");   // http server
 var fs = require('fs');       // filesystem.
 var path = require('path');   // used for traversing your OS.
 var url = require('url');     // utility for URLs
-var exec = require('child_process').exec;  // running cmd
+var spawn = require('child_process').spawn;
 
 // Settings
 //
@@ -12,7 +12,6 @@ var WWW_ROOT = "./www/";
 var LOG_PATH = WWW_ROOT+"log/";
 var HTTP_PORT = 8080;
 
-var PIPE;
 var status = {'printing' : false,
               'queue': [],
              };
@@ -24,18 +23,19 @@ function printQueue() {
     if (status.printing === false && status.queue.length > 0) {
         var actualFile = status.queue[0],
         command = './print.sh ' + actualFile.file;
-
-        console.log(command);
         status.printing = true;
-        PIPE = exec(command, function (error, stdout, stderr) {
-            console.log('stdout: '+stdout);
-            console.log('stderr: '+stderr);
-            if (error !== null) {
-                console.log('exec error: ' + error);
-            }
 
-            //  Erase the job from the queue and the file
-            //
+        var prc = spawn('./print.sh', [actualFile.file]);
+        prc.stdout.setEncoding('utf8');
+        prc.stdout.on('data', function (data) {
+            var str = data.toString()
+            var lines = str.split(/(\r?\n)/g);
+            console.log(lines.join(""));
+        });
+
+        prc.on('close', function (code) {
+            console.log('process exit code ' + code);
+
             status.printing = false;
             status.queue.shift();
 
