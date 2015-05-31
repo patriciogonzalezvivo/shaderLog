@@ -4,17 +4,47 @@ var http = require("http");   // http server
 var fs = require('fs');       // filesystem.
 var path = require('path');   // used for traversing your OS.
 var url = require('url');     // utility for URLs
-var spawn = require('child_process').spawn;
+var spawn = require('child_process').spawn; // running cmd
+var formidable = require('formidable');  // uploading files;
 
 // Settings
 //
 var WWW_ROOT = "./www/";
-var LOG_PATH = WWW_ROOT+"log/";
+var LOG_PATH = "log/";
 var HTTP_PORT = 8080;
 
 var status = {'printing' : false,
               'queue': [],
              };
+
+function fDate(epoch, format, locale) {
+    var date = new Date(epoch),
+        format = format || 'dd/mm/YY',
+        locale = locale || 'en'
+        dow = {};
+
+    dow.en = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+    ];
+
+    var formatted = format
+        .replace('D', dow[locale][date.getDay()])
+        .replace('dd', ("0" + date.getDate()).slice(-2))
+        .replace('mm', ("0" + (date.getMonth() + 1)).slice(-2))
+        .replace('yyyy', date.getFullYear())
+        .replace('yy', (''+date.getFullYear()).slice(-2))
+        .replace('hh', ("0" + (date.getHours())).slice(-2))
+        .replace('mn', ("0" + (date.getMinutes())).slice(-2) )
+        .replace('ss', ("0" + (date.getSeconds())).slice(-2) );
+
+    return formatted;
+}
 
 function printQueue() {
     console.log('There are ' + status.queue.length + ' objects on the queue');
@@ -22,10 +52,10 @@ function printQueue() {
 
     if (status.printing === false && status.queue.length > 0) {
         var actualFile = status.queue[0],
-        command = './print.sh ' + actualFile.file;
+        command = './print.sh ' + actualFile.filename;
         status.printing = true;
 
-        var prc = spawn('./print.sh', [actualFile.file]);
+        var prc = spawn('./print.sh', [actualFile.filename]);
         prc.stdout.setEncoding('utf8');
         prc.stdout.on('data', function (data) {
             var str = data.toString()
@@ -46,36 +76,53 @@ function printQueue() {
     }
 }
 
+function saveFile( filename, content ){
+    fs.writeFile(filename, content, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+    });
+}
+
+
 // WEB SERVER
 //
 var server = http.createServer( function( req , res ) {
     var parsedReq = url.parse(req.url);
 
-    if(parsedReq.pathname == "/save" && req.method.toLowerCase() == 'post'){
-        //  SAVE a content
-        var content = '';
-        req.on('data', function (data) {
-            content += data;
-        });
-        req.on('end', function () {
-            var filename = Date.now()+".frag";
-            fs.writeFile(LOG_PATH + filename, content, function(err) {
+    if(parsedReq.pathname == "/save" && req.method.toLowerCase() == 'post') {
+        var form = new formidable.IncomingForm();
+        var files = [];
+        var fields = [];
+
+        form.uploadDir = WWW_ROOT + LOG_PATH;
+        form.keepExtensions = true;
+
+        var filename = fDate(Date.now(),'yy-mm-dd-hh-mn-ss');
+
+        form.on('fileBegin', function(name, file) {
+            file.path = form.uploadDir + filename + '.png';
+        })
+
+        form.parse(req, function(err, fields, files) {
+            fs.writeFile(WWW_ROOT+LOG_PATH+filename+".frag", fields['code'], function(err) {
                 if(err) {
                     return console.log(err);
                 }
-                // console.log("The file was saved!");
-                res.write('log/'+filename);
+                res.write(LOG_PATH+filename+".frag");
                 res.end();
 
                 var queue_obj = {
-                    'file': LOG_PATH+filename
+                    'image': WWW_ROOT + LOG_PATH + filename + '.png',
+                    'code': WWW_ROOT + LOG_PATH + filename + '.frag',
+                    'filename': filename
                 }
                 status.queue.push(queue_obj);
 
                 printQueue();
-            }); 
-            content = '';
+            });
         });
+
     } else {
         //  REGULAR WEB SERVER
         //

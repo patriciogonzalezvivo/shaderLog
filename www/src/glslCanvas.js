@@ -83,7 +83,7 @@ function loadShaders() {
 
 		if( !billboards[i] || !billboards[i].gl){
 			console.log("Creating WebGL context");
-			gl = setupWebGL(list[i]);
+			gl = setupWebGL(list[i],{preserveDrawingBuffer: true});
 		} else {
 			gl = billboards[i].gl
 		}
