@@ -119,7 +119,7 @@ var server = http.createServer( function( req , res ) {
                 }
                 status.queue.push(queue_obj);
 
-                printQueue();
+                //printQueue();
             });
         });
 
