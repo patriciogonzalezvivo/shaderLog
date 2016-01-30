@@ -1,5 +1,5 @@
 .DS_Store
-www/log/*
+www/data/*
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
