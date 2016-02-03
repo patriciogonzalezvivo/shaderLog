@@ -81,6 +81,8 @@ var server = http.createServer( function( req , res ) {
                     res.writeHead(200, {'content-type': 'text/plain'});
                     res.write(LOG_PATH+filename+'.frag');
                     res.end();
+                    // Create a copy
+                    fs.createReadStream('last.frag').pipe(fs.createWriteStream(LOG_PATH+filename+'.frag'));
                 });
             form.parse(req);
     } else {
