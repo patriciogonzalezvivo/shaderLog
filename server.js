@@ -64,6 +64,9 @@ var server = http.createServer( function( req , res ) {
                         fs.writeFile(WWW_ROOT+LOG_PATH+filename+'.frag', value, function(err) {
                             if (err) return console.log(err);
                         });
+                        fs.writeFile(WWW_ROOT+LOG_PATH+'last.frag', value, function(err) {
+                            if (err) return console.log(err);
+                        });
                     }
                 })
                 .on('fileBegin', function(name, file) {
@@ -81,8 +84,6 @@ var server = http.createServer( function( req , res ) {
                     res.writeHead(200, {'content-type': 'text/plain'});
                     res.write(LOG_PATH+filename+'.frag');
                     res.end();
-                    // Create a copy
-                    fs.createReadStream(LOG_PATH+filename+'.frag').pipe(fs.createWriteStream(LOG_PATH+'last.frag'));
                 });
             form.parse(req);
     } else {
