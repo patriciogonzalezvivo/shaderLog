@@ -82,7 +82,7 @@ var server = http.createServer( function( req , res ) {
                     console.log('-> upload ' + LOG_PATH+filename+'.frag');
                     res.setHeader('Access-Control-Allow-Origin', '*');
                     res.writeHead(200, {'content-type': 'text/plain'});
-                    res.write(LOG_PATH+filename+'.frag');
+                    res.write(filename);
                     res.end();
                 });
             form.parse(req);
