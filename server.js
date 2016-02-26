@@ -52,88 +52,36 @@ var server = http.createServer( function( req , res ) {
             files = [],
             fields = [];
 
-            form.uploadDir = WWW_ROOT + LOG_PATH;
-            form.keepExtensions = true;
+        form.uploadDir = WWW_ROOT + LOG_PATH;
+        form.keepExtensions = true;
 
-            var filename = fDate(Date.now(),'yymmddhhmnss');
-            form
-                .on('field', function(field, value) {
-                    // console.log(field, value);
-                    fields.push([field, value]);
-                    if (field === 'code') {
-                        fs.writeFile(WWW_ROOT+LOG_PATH+filename+'.frag', value, function(err) {
-                            if (err) return console.log(err);
-                        });
-                        fs.writeFile(WWW_ROOT+LOG_PATH+'last.frag', value, function(err) {
-                            if (err) return console.log(err);
-                        });
-                    }
-                })
-                .on('fileBegin', function(name, file) {
-                    if (name == 'image') {
-                        file.path = form.uploadDir + filename + '.png';
-                    }
-                })
-                .on('file', function(field, file) {
-                    // console.log(field, file);
-                    files.push([field, file]);
-                })
-                .on('end', function() {
-                    console.log('-> upload ' + LOG_PATH+filename+'.frag');
-                    res.setHeader('Access-Control-Allow-Origin', '*');
-                    res.writeHead(200, {'content-type': 'text/plain'});
-                    res.write(filename);
-                    res.end();
-                });
-            form.parse(req);
-    } else {
-        //  REGULAR WEB SERVER
-        //
-        var mimeTypes = {
-            'html':  'text/html',
-            'jpeg':  'image/jpeg',
-            'jpg':   'image/jpeg',
-            'png':   'image/png',
-            'svg':   'image/svg+xml',
-            'svgz':  'image/svg+xml',
-            'js':    'text/javascript',
-            'css':   'text/css'
-        };
-
-        var fileToLoad;
-
-        if(req.url == '/') {
-          fileToLoad = 'index.html';
-        } else {
-          fileToLoad = url.parse(req.url).pathname.substr(1);
-        }
-
-        console.log('[HTTP] :: Loading :: ' + WWW_ROOT + fileToLoad);
-
-        var fileBytes;
-        var httpStatusCode = 200;
-
-        // check to make sure a file exists...
-        fs.exists(WWW_ROOT + fileToLoad,function(doesItExist) {
-
-            // if it doesn't exist lets make sure we load error404.html
-            if(!doesItExist) {
-                console.log('[HTTP] :: Error loading :: ' + WWW_ROOT + fileToLoad);
-
-                httpStatusCode = 404;
-                fileToLoad = 'error404.html';
-            }
-
-            var fileBytes = fs.readFileSync(WWW_ROOT + fileToLoad);
-            var mimeType = mimeTypes[path.extname(fileToLoad).split('.')[1]]; // complicated, eh?
-
-            // res.setHeader('Access-Control-Allow-Origin', '*');
-            res.writeHead(httpStatusCode, {  
-                                            'Access-Control-Allow-Origin' : '*',
-                                            'Content-type':mimeType
-                                        });
-            res.end(fileBytes);
-        });
-	}
+        var filename = fDate(Date.now(),'yymmddhhmnss');
+        form
+            .on('field', function(field, value) {
+                // console.log(field, value);
+                fields.push([field, value]);
+                if (field === 'code') {
+                    fs.writeFile(WWW_ROOT+LOG_PATH+filename+'.frag', value, function(err) {
+                        if (err) return console.log(err);
+                    });
+                    fs.writeFile(WWW_ROOT+LOG_PATH+'last.frag', value, function(err) {
+                        if (err) return console.log(err);
+                    });
+                }
+            })
+            .on('fileBegin', function(name, file) {
+                // if (name === 'image') {
+                    file.path = form.uploadDir + filename + '.png';
+                // }
+            })
+            .on('end', function() {
+                console.log('-> upload ' + LOG_PATH+filename+'.frag');
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.writeHead(200, {'content-type': 'text/plain'});
+                res.write(filename);
+                res.end();
+            });
+        form.parse(req);
+    }
 }).listen(HTTP_PORT);
 console.log('Server started at http://localhost:' + HTTP_PORT);
