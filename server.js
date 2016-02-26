@@ -8,8 +8,7 @@ var http = require('http'),   // http server
 
 // Settings
 //
-var WWW_ROOT = './www/';
-var LOG_PATH = 'data/';
+var LOG_PATH = './log/';
 var HTTP_PORT = 8080;
 
 function fDate(epoch, format, locale) {
@@ -52,7 +51,7 @@ var server = http.createServer( function( req , res ) {
             files = [],
             fields = [];
 
-        form.uploadDir = WWW_ROOT + LOG_PATH;
+        form.uploadDir = LOG_PATH;
         form.keepExtensions = true;
 
         var filename = fDate(Date.now(),'yymmddhhmnss');
@@ -61,10 +60,10 @@ var server = http.createServer( function( req , res ) {
                 // console.log(field, value);
                 fields.push([field, value]);
                 if (field === 'code') {
-                    fs.writeFile(WWW_ROOT+LOG_PATH+filename+'.frag', value, function(err) {
+                    fs.writeFile(LOG_PATH+filename+'.frag', value, function(err) {
                         if (err) return console.log(err);
                     });
-                    fs.writeFile(WWW_ROOT+LOG_PATH+'last.frag', value, function(err) {
+                    fs.writeFile(LOG_PATH+'last.frag', value, function(err) {
                         if (err) return console.log(err);
                     });
                 }
