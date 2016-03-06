@@ -1,5 +1,6 @@
 .DS_Store
-log/*
+log/*.png
+log/*.frag
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
