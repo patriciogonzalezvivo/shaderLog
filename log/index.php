@@ -1,5 +1,22 @@
 <?php 
-// main menu
+
+    $images = array_reverse(glob("*.png"));
+    $ntotal = count ($images);
+    $index = 0;
+    $jump = 50;
+
+    if(!empty($_GET)) {
+        if(isset($_GET['index'])) {
+            $index = (int)$_GET['index'];
+        }
+        if(isset($_GET['jump'])) {
+            $jump = (int)$_GET['jump'];
+        }
+    }
+
+    $from = max($jump * $index , 0);
+    $to = min($jump * $index + $jump, $ntotal);
+
 echo '
 <!DOCTYPE html>
 <html>
@@ -22,31 +39,38 @@ echo '
         <link type="text/css" rel="stylesheet" href="http://thebookofshaders.com/css/style.css">
     </head>
     <body>
-    ';
+        <div class="header"><p><a href="http://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a></p></div>
+        <hr>
+        <div class="gallery">';
 
-    $images = array_reverse(glob("*.png"));
-
-    echo '
-    <div class="header"><p><a href="http://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a></p></div>
-    <hr>
-    <div class="gallery">';
-
-    foreach ($images as &$img) {
+    for ($i = $from; $i < $to; $i++) {
+        $img = $images[$i];
         $log = basename($img, ".png");
         echo '
-        <div class="gallery_item">
-            <a href="http://editor.thebookofshaders.com/?log='.$log.'" target="_blank">
-                <img class="gallery_thumb" src="'.$img.'" alt="">
-                <p> '.$log.'</p>
-            </a>
-        </div>';
+            <div class="gallery_item">
+                <a href="http://editor.thebookofshaders.com/?log='.$log.'" target="_blank">
+                    <img class="gallery_thumb" src="'.$img.'" alt="">
+                    <p> '.$log.'</p>
+                </a>
+            </div>';
     }
 
     echo '
         </div>
         <hr>
-        <ul class="navigationBar" >
-            <li class="navigationBar"><a href="http://thebookofshaders.com/"> Home </a></li>
+        <ul class="navigationBar" >';
+        
+        if ($from > 0) {
+            echo '<li class="navigationBar"><a href="./?index='.($index-1).'&jump='.($jump).'">&lt; &lt; Previous</a></li>';
+        }
+
+        echo '<li class="navigationBar"><a href="http://thebookofshaders.com/"> Home </a></li>';
+        
+        if ($to < $ntotal) {
+            echo '<li class="navigationBar"><a href="./?index='.($index+1).'&jump='.($jump).'">Next &gt; &gt;</a></li>';
+        }
+        
+        echo '
         </ul>
         <footer>
             <p> Copyright 2015 <a href="http://www.patriciogonzalezvivo.com" target="_blank">Patricio Gonzalez Vivo</a> </p>
