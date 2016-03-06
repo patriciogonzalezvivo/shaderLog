@@ -19,7 +19,7 @@ echo '
         <!-- GlslCanvas -->
         <script type="text/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslCanvas/master/build/GlslCanvas.min.js"></script>
 
-        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="http://thebookofshaders.com/css/style.css">
     </head>
     <body>
     ';
