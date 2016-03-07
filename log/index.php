@@ -3,7 +3,7 @@
     $images = array_reverse(glob("*.png"));
     $ntotal = count ($images);
     $index = 0;
-    $jump = 50;
+    $jump = 20;
 
     if(!empty($_GET)) {
         if(isset($_GET['index'])) {
