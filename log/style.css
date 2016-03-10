@@ -1,0 +1,7 @@
+.sandbox {
+	position: absolute;
+	top: -250px;
+	left: 0px;
+	z-index: 100;
+	background-color: red;
+}

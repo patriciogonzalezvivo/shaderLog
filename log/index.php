@@ -36,7 +36,11 @@ echo '
         <!-- GlslCanvas -->
         <script type="text/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslCanvas/master/build/GlslCanvas.min.js"></script>
 
+        <!-- Fetch -->
+        <script type="text/javascript" src="https://rawgit.com/github/fetch/master/fetch.js"></script>
+
         <link type="text/css" rel="stylesheet" href="http://thebookofshaders.com/css/style.css">
+        <link type="text/css" rel="stylesheet" href="./style.css">
     </head>
     <body>
         <div class="header"><p><a href="http://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a></p></div>
@@ -48,7 +52,7 @@ echo '
         $log = basename($img, ".png");
         echo '
             <div class="gallery_item">
-                <a href="http://editor.thebookofshaders.com/?log='.$log.'" target="_blank">
+                <a href="http://editor.thebookofshaders.com/?log='.$log.'" data='.$log.' target="_blank" onmouseenter="mouseIn(this)" onmouseleave="mouseOut(this)" >
                     <img class="gallery_thumb" src="'.$img.'" alt="">
                     <p> '.$log.'</p>
                 </a>
@@ -57,6 +61,8 @@ echo '
 
     echo '
         </div>
+        <script src="main.js"></script>
+
         <hr>
         <ul class="navigationBar" >';
         
