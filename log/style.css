@@ -1,7 +1,11 @@
 .sandbox {
 	position: absolute;
-	top: -250px;
-	left: 0px;
+	top: 0px;
+	left: 25px;
 	z-index: 100;
 	background-color: red;
+}
+
+.time_label {
+    
 }

@@ -47,6 +47,13 @@ echo '
         <hr>
         <div class="gallery">';
 
+function convert_date_js_php($date){
+    $datearray = explode(", ", $date);
+    list($year, $month, $day) = $datearray;
+    $converted_date = date("Y-m-d", mktime(0, 0, 0, $month+1, $day, $year));        
+    return $converted_date;
+}
+
     for ($i = $from; $i < $to; $i++) {
         $img = $images[$i];
         $log = basename($img, ".png");
@@ -54,13 +61,16 @@ echo '
             <div class="gallery_item">
                 <a href="http://editor.thebookofshaders.com/?log='.$log.'" data='.$log.' target="_blank" onmouseenter="mouseIn(this)" onmouseleave="mouseOut(this)" >
                     <img class="gallery_thumb" src="'.$img.'" alt="">
-                    <p> '.$log.'</p>
+                    <p class="time_label"> '.$log.'</p>
                 </a>
             </div>';
     }
 
     echo '
         </div>
+        <script>
+           var serverDate = '.time().';
+        </script>
         <script src="main.js"></script>
 
         <hr>
