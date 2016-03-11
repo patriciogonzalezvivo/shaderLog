@@ -26,4 +26,10 @@
 	top: 0px;
 	z-index: 2;
 	background-color: red;
+    opacity:0;
+    transition:opacity 0.5s ease-in;
+}
+
+.sandbox:hover {
+    opacity:1;
 }
