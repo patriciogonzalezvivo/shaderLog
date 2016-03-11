@@ -47,12 +47,6 @@ echo '
         <hr>
         <div class="gallery">';
 
-function convert_date_js_php($date){
-    $datearray = explode(", ", $date);
-    list($year, $month, $day) = $datearray;
-    $converted_date = date("Y-m-d", mktime(0, 0, 0, $month+1, $day, $year));        
-    return $converted_date;
-}
 
     for ($i = $from; $i < $to; $i++) {
         $img = $images[$i];
