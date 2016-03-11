@@ -7,12 +7,15 @@ canvas.height = '250px';
 var sandbox = new GlslCanvas(canvas);
 
 function mouseIn (el) {
+    var img = el.getElementsByTagName('img');
+
 	var url = './' + el.getAttribute('data') + '.frag';
     getHttp(url, function(err, res) {
         if (err) {
             console.error(err);
         }
         sandbox.load(res);
+        sandbox.canvas.style.height = img[0].offsetHeight + 'px';
     });
 	
 	el.appendChild(canvas);
