@@ -35,47 +35,34 @@ echo '
 
         <!-- GlslCanvas -->
         <script type="text/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslCanvas/master/build/GlslCanvas.min.js"></script>
+        <!-- GlslCanvas -->
+        <link type="text/css" rel="stylesheet" href="https://cdn.rawgit.com/patriciogonzalezvivo/glslGallery/gh-pages/build/glslGallery.css">
+        <script type="text/javascript" src="https://cdn.rawgit.com/patriciogonzalezvivo/glslGallery/gh-pages/build/glslGallery.js"></script>
 
         <!-- Fetch -->
-        <script type="text/javascript" src="https://rawgit.com/github/fetch/master/fetch.js"></script>
-
         <link type="text/css" rel="stylesheet" href="http://thebookofshaders.com/css/style.css">
-        <link type="text/css" rel="stylesheet" href="./style.css">
     </head>
     <body>
         <div class="header"><p><a href="http://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a></p></div>
         <hr>
-        <div class="gallery">';
+        <div class="glslGallery" data="';
+        for ($i = $from; $i < $to; $i++) {
+            $log = basename($images[$i], ".png");
+            echo $log;
+            if ($i != $to-1) {
+                echo ',';
+            }
+        }
 
-
-    for ($i = $from; $i < $to; $i++) {
-        $img = $images[$i];
-        $log = basename($img, ".png");
-        echo '
-            <div class="gallery_item">
-                <a href="http://editor.thebookofshaders.com/?log='.$log.'" data='.$log.' target="_blank" onmouseenter="mouseIn(this)" onmouseleave="mouseOut(this)" >
-                    <img class="gallery_thumb" src="'.$img.'" alt="">
-                    <p class="time_label"> '.$log.'</p>
-                </a>
-            </div>';
-    }
-
-    echo '
+    echo '">
         </div>
-        <script>
-           var serverDate = '.time().';
-        </script>
-        <script src="main.js"></script>
 
         <hr>
         <ul class="navigationBar" >';
-        
         if ($from > 0) {
             echo '<li class="navigationBar"><a href="./?index='.($index-1).'&jump='.($jump).'">&lt; &lt; Previous</a></li>';
         }
-
         echo '<li class="navigationBar"><a href="http://thebookofshaders.com/"> Home </a></li>';
-        
         if ($to < $ntotal) {
             echo '<li class="navigationBar"><a href="./?index='.($index+1).'&jump='.($jump).'">Next &gt; &gt;</a></li>';
         }
