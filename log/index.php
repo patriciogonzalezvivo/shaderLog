@@ -37,9 +37,8 @@ echo '
         <script type="text/javascript" src="http://patriciogonzalezvivo.com/glslCanvas/build/GlslCanvas.min.js"></script>
         <!-- GlslCanvas -->
         <link type="text/css" rel="stylesheet" href="http://patriciogonzalezvivo.com/glslGallery/build/glslGallery.css">
-        <script type="text/javascript" src="http://patriciogonzalezvivo.com/glslGallery/build/glslGallery.js"></script>'
-        <!-- Fetch -->
-        <link type="text/css" rel="stylesheet" href="http://thebookofshaders.com/css/style.css">
+        <script type="text/javascript" src="http://patriciogonzalezvivo.com/glslGallery/build/glslGallery.js"></script>
+        
     </head>
     <body>
         <div class="header"><p><a href="http://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a></p></div>
