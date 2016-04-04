@@ -34,11 +34,10 @@ echo '
         <link href="/favicon.gif" rel="shortcut icon"/>
 
         <!-- GlslCanvas -->
-        <script type="text/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslCanvas/master/build/GlslCanvas.min.js"></script>
+        <script type="text/javascript" src="http://patriciogonzalezvivo.com/glslCanvas/build/GlslCanvas.min.js"></script>
         <!-- GlslCanvas -->
-        <link type="text/css" rel="stylesheet" href="https://cdn.rawgit.com/patriciogonzalezvivo/glslGallery/gh-pages/build/glslGallery.css">
-        <script type="text/javascript" src="https://cdn.rawgit.com/patriciogonzalezvivo/glslGallery/gh-pages/build/glslGallery.js"></script>
-
+        <link type="text/css" rel="stylesheet" href="http://patriciogonzalezvivo.com/glslGallery/build/glslGallery.css">
+        <script type="text/javascript" src="http://patriciogonzalezvivo.com/glslGallery/build/glslGallery.js"></script>'
         <!-- Fetch -->
         <link type="text/css" rel="stylesheet" href="http://thebookofshaders.com/css/style.css">
     </head>
