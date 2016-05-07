@@ -1,3 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>The Book of Shaders Gallery</title>
+        <meta name="keywords" content="shader,openGL,WebGL,GLSL,procedural,generative" />
+        <meta name="description" content="Gallery of Fragment Shaders of The Book of Shaders" />
+
+        <meta name="twitter:site" content="@bookofshaders">
+        <meta name="twitter:title" content="The Book Of Shaders gallery">
+        <meta name="twitter:description" content="Gentle step-by-step guide through the abstract and complex universe of Fragment Shaders.">
+        <meta name="twitter:creator" content="@patriciogv">
+        <meta name="twitter:domain" content="thebookofshaders.com">
+        <link href="/favicon.gif" rel="shortcut icon"/>
+
+        <!-- GlslCanvas -->
+        <script type="text/javascript" src="https://thebookofshaders.com/glslCanvas/GlslCanvas.js"></script>
+        <!-- GlslCanvas -->
+        <link type="text/css" rel="stylesheet" href="https://thebookofshaders.com/glslGallery/glslGallery.css">
+        <script type="text/javascript" src="https://thebookofshaders.com/glslGallery/glslGallery.js"></script>
+
+        <!-- The book of shaders style -->
+        <link type="text/css" rel="stylesheet" href="https://thebookofshaders.com/css/style.css">
+    </head>
+    <body>
+        <div class="header"><p><a href="http://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a></p></div>
+        <hr>
+        <div class="glslGallery" data="
+
 <?php 
 
     $images = array_reverse(glob("*.png"));
@@ -17,35 +46,6 @@
     $from = max($jump * $index , 0);
     $to = min($jump * $index + $jump, $ntotal);
 
-echo '
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>The Book of Shaders Gallery</title>
-        <meta name="keywords" content="shader,openGL,WebGL,GLSL,procedural,generative" />
-        <meta name="description" content="Gallery of Fragment Shaders of The Book of Shaders" />
-
-        <meta name="twitter:site" content="@bookofshaders">
-        <meta name="twitter:title" content="The Book Of Shaders">
-        <meta name="twitter:description" content="Gentle step-by-step guide through the abstract and complex universe of Fragment Shaders.">
-        <meta name="twitter:creator" content="@patriciogv">
-        <meta name="twitter:domain" content="thebookofshaders.edu">
-        <link href="/favicon.gif" rel="shortcut icon"/>
-
-        <!-- GlslCanvas -->
-        <script type="text/javascript" src="http://patriciogonzalezvivo.com/glslCanvas/build/GlslCanvas.min.js"></script>
-        <!-- GlslCanvas -->
-        <link type="text/css" rel="stylesheet" href="http://patriciogonzalezvivo.com/glslGallery/build/glslGallery.css">
-        <script type="text/javascript" src="http://patriciogonzalezvivo.com/glslGallery/build/glslGallery.js"></script>
-
-        <!-- The book of shaders style -->
-        <link type="text/css" rel="stylesheet" href="http://thebookofshaders.com/css/style.css">
-    </head>
-    <body>
-        <div class="header"><p><a href="http://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a></p></div>
-        <hr>
-        <div class="glslGallery" data="';
         for ($i = $from; $i < $to; $i++) {
             $log = basename($images[$i], ".png");
             echo $log;
@@ -66,9 +66,8 @@ echo '
         if ($to < $ntotal) {
             echo '<li class="navigationBar"><a href="./?index='.($index+1).'&jump='.($jump).'">Next &gt; &gt;</a></li>';
         }
-        
-        echo '
-        </ul>
+?>
+</ul>
         <footer>
             <p> Copyright 2015 <a href="http://www.patriciogonzalezvivo.com" target="_blank">Patricio Gonzalez Vivo</a> </p>
         </footer>
@@ -83,5 +82,4 @@ echo '
           ga("send", "pageview");
         </script>
     </body>
-</html>';
-?>
+</html>
