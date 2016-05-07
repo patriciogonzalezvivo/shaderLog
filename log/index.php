@@ -23,7 +23,9 @@
         <link type="text/css" rel="stylesheet" href="https://thebookofshaders.com/css/style.css">
     </head>
     <body>
-        <div class="header"><p><a href="http://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a></p></div>
+        <div class="header">
+            <p class="subtitle"><a href="https://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a> </p>
+        </div>
         <hr>
         <div class="glslGallery" data="
 
