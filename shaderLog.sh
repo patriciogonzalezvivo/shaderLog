@@ -53,7 +53,7 @@ case "$1" in
 
     start)
         while true ; do
-            sudo npm start
+            npm start
             sleep 5
         done
         ;;
