@@ -10,6 +10,8 @@ var http = require('http'),   // http server
 //
 var LOG_PATH = './log/';
 var HTTP_PORT = 8080;
+var user = "user";
+var password = "password";
 
 function fDate(epoch, format, locale) {
     var date = new Date(epoch),
@@ -42,7 +44,7 @@ function fDate(epoch, format, locale) {
 
 // WEB SERVER
 //
-var server = http.createServer( function( req , res ) {
+var server = http.createServer( function(req , res) {
     var parsedReq = url.parse(req.url);
 
     // SAVE 
@@ -69,9 +71,7 @@ var server = http.createServer( function( req , res ) {
                 }
             })
             .on('fileBegin', function(name, file) {
-                // if (name === 'image') {
-                    file.path = form.uploadDir + filename + '.png';
-                // }
+                file.path = form.uploadDir + filename + '.png';
             })
             .on('end', function() {
                 console.log('-> upload ' + LOG_PATH+filename+'.frag');

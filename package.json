@@ -4,7 +4,6 @@
   "description": "Shaders Printer server",
   "main": "server.js",
   "scripts": {
-    "test": "node server.js",
     "start": "node server.js"
   },
   "repository": {
