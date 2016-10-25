@@ -11,18 +11,10 @@ var token = process.env.SLACK_API_TOKEN || '';
 var rtm = new RtmClient(token);
 rtm.start();
 
-// var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
-// rtm.on(RTM_EVENTS.MESSAGE, function (message) {
-//   console.log('MESSAGE!');
-//   console.log(message);
-// });
-
 // Settings
 //
 var LOG_PATH = './log/';
 var HTTP_PORT = 8080;
-var user = "user";
-var password = "password";
 
 function fDate(epoch, format, locale) {
     var date = new Date(epoch),
