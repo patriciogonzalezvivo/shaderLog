@@ -93,7 +93,7 @@ var server = http.createServer( function(req , res) {
 
                 var user = rtm.dataStore.getUserById('U0AU1E1QU');
                 var dm = rtm.dataStore.getDMByName(user.name);
-                rtm.sendMessage('New log created at: editor.thebookofshaders.com/?log='+filename , dm.id);
+                rtm.sendMessage('New log created at: http://editor.thebookofshaders.com/?log='+filename+' https://thebookofshaders.com/log/'+filename+'.png' , dm.id);
             });
         form.parse(req);
 
