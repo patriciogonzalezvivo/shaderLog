@@ -20,6 +20,7 @@
   "author": "Patricio Gonzalez Vivo",
   "license": "MIT",
   "dependencies": {
+    "@slack/client": "^3.6.0",
     "formidable": "^1.0.17"
   }
 }

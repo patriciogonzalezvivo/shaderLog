@@ -4,7 +4,18 @@ var http = require('http'),   // http server
     fs = require('fs'),       // filesystem.
     path = require('path'),   // used for traversing your OS.
     url = require('url'),
-    formidable = require('formidable');  // uploading files;
+    formidable = require('formidable');  // uploading files
+
+var RtmClient = require('@slack/client').RtmClient;
+var token = process.env.SLACK_API_TOKEN || '';
+var rtm = new RtmClient(token);
+rtm.start();
+
+// var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
+// rtm.on(RTM_EVENTS.MESSAGE, function (message) {
+//   console.log('MESSAGE!');
+//   console.log(message);
+// });
 
 // Settings
 //
@@ -79,8 +90,14 @@ var server = http.createServer( function(req , res) {
                 res.writeHead(200, {'content-type': 'text/plain'});
                 res.write(filename);
                 res.end();
+
+                var user = rtm.dataStore.getUserById('U0AU1E1QU');
+                var dm = rtm.dataStore.getDMByName(user.name);
+                rtm.sendMessage('New log created at: editor.thebookofshaders.com/?log='+filename , dm.id);
             });
         form.parse(req);
+
+        
     }
 }).listen(HTTP_PORT);
 console.log('Server started at http://localhost:' + HTTP_PORT);
