@@ -75,9 +75,7 @@ function deleteEntry(logNumber) {
 } 
 
 rtm.on(RTM_EVENTS.MESSAGE, function (message) {
-    console.log(message);
     if (message.user === ADMIN_SLACK_USER ) {
-        console.log(message.text.match(/del(\s*\d{12})*/gm))
         if (message.text.match(/del(\s*\d{12})*/m)) {
             var entries = message.text.split(' ');
             for (var i = 1; i < entries.length; i++) {
