@@ -128,7 +128,7 @@ var server = http.createServer( function(req , res) {
 
                 var user = rtm.dataStore.getUserById(ADMIN_SLACK_USER);
                 var dm = rtm.dataStore.getDMByName(user.name);
-                rtm.sendMessage('New log created at: http://editor.thebookofshaders.com/?log='+filename+' https://thebookofshaders.com/log/'+filename+'.png' , dm.id);
+                rtm.sendMessage('Entry '+filename+' visible at http://player.thebookofshaders.com/?log='+filename, dm.id);
             });
         form.parse(req);
 
