@@ -1,6 +1,7 @@
 //  Modules
 //
-var http = require('http'),   // http server
+var tls = require('tls'), // http server
+    http = require('http'),   // http server
     fs = require('fs'),       // filesystem.
     path = require('path'),   // used for traversing your OS.
     url = require('url'),
@@ -11,6 +12,11 @@ var http = require('http'),   // http server
 var LOG_PATH = './log/';
 var HTTP_PORT = 8080;
 var ADMIN_SLACK_USER = 'U0AU1E1QU';
+
+var options = {
+   key  : fs.readFileSync('/usr/ssl/thebookofshaders.key'),
+   cert : fs.readFileSync('/usr/ssl/thebookofshaders.crt')
+};
 
 // SLACK integration
 //
@@ -88,7 +94,7 @@ rtm.on(RTM_EVENTS.MESSAGE, function (message) {
 
 // WEB SERVER
 //
-var server = http.createServer( function(req , res) {
+var server = tls.createServer(options, function(req , res) {
     var parsedReq = url.parse(req.url);
 
     // SAVE 
