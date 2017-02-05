@@ -21,7 +21,6 @@
   "license": "MIT",
   "dependencies": {
     "@slack/client": "^3.6.0",
-    "formidable": "^1.0.17",
-    "tls": "0.0.1"
+    "formidable": "^1.0.17"
   }
 }

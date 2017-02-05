@@ -1,7 +1,6 @@
 //  Modules
 //
-var tls = require('tls'), // http server
-    http = require('http'),   // http server
+var http = require('https'),   // http server
     fs = require('fs'),       // filesystem.
     path = require('path'),   // used for traversing your OS.
     url = require('url'),
@@ -94,7 +93,7 @@ rtm.on(RTM_EVENTS.MESSAGE, function (message) {
 
 // WEB SERVER
 //
-var server = tls.createServer(options, function(req , res) {
+var server = http.createServer(options, function(req , res) {
     var parsedReq = url.parse(req.url);
 
     // SAVE 
