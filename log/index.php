@@ -12,9 +12,6 @@
         <meta name="twitter:creator" content="@patriciogv">
         <meta name="twitter:domain" content="thebookofshaders.com">
         <link href="/favicon.gif" rel="shortcut icon"/>
-
-        <!-- GlslCanvas -->
-        <script type="text/javascript" src="http://patriciogonzalezvivo.github.io/glslCanvas/dist/GlslCanvas.js"></script>
         
         <!-- GlslGallery -->
         <link type="text/css" rel="stylesheet" href="https://thebookofshaders.com/glslGallery/glslGallery.css">
