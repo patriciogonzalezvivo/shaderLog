@@ -14,8 +14,9 @@
         <link href="/favicon.gif" rel="shortcut icon"/>
 
         <!-- GlslCanvas -->
-        <script type="text/javascript" src="https://thebookofshaders.com/glslCanvas/GlslCanvas.js"></script>
-        <!-- GlslCanvas -->
+        <script type="text/javascript" src="http://patriciogonzalezvivo.github.io/glslCanvas/dist/GlslCanvas.js"></script>
+        
+        <!-- GlslGallery -->
         <link type="text/css" rel="stylesheet" href="https://thebookofshaders.com/glslGallery/glslGallery.css">
         <script type="text/javascript" src="https://thebookofshaders.com/glslGallery/glslGallery.js"></script>
 

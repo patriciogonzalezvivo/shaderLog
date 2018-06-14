@@ -13,8 +13,8 @@ var HTTP_PORT = 8080;
 var ADMIN_SLACK_USER = 'U0AU1E1QU';
 
 var options = {
-   key  : fs.readFileSync('/usr/ssl/thebookofshaders.key'),
-   cert : fs.readFileSync('/usr/ssl/thebookofshaders.crt')
+   key  : fs.readFileSync('/usr/ssl/thebookofshaders-new.key'),
+   cert : fs.readFileSync('/usr/ssl/thebookofshaders-new.crt')
 };
 
 // SLACK integration
